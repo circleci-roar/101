@@ -2,6 +2,19 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+
+commands:
+  sayhello:
+    description: I am reusable
+    parameters:
+      greeting:
+        description: Something Helpful, I am optional
+        type: string
+        default: Hello
+    steps:
+      - run:
+          name: "Say << parameters.greeting >>"
+          command: "echo << parameters.greeting >>, World!"
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -19,9 +32,8 @@ jobs:
         default: Hello
     steps:
       - checkout
-      - run:
-          name: "Say hello"
-          command: "echo << parameters.greeting >>, World!"
+      - sayhello:
+          greeting: << parameters.greeting >>
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
