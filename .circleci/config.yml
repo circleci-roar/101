@@ -29,9 +29,13 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello:
-          greeting: Goodbye
           filters:
             branches:
               only: 
                 - main
+      - say-hello:
+          greeting: Goodbye
+          filters:
+            branches:
+              only: 
                 - /feature/.*/
