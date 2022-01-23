@@ -63,5 +63,4 @@ workflows:
                 - /feature/.*/
   aws-cli:
     jobs:
-      - aws-cli-example:
-          context: aws
+      - aws-cli-example
