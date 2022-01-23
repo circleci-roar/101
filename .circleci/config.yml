@@ -29,11 +29,13 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello:
+          name: Speak on Main
           filters:
             branches:
               only: 
                 - main
       - say-hello:
+          name: Speak on Feature
           greeting: Goodbye
           filters:
             branches:
