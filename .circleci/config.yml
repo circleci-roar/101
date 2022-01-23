@@ -34,15 +34,11 @@ jobs:
         default: Hello
     steps:
       - checkout
-      - sayhello:
-          greeting: << parameters.greeting >>
-  aws-cli-example:
-    executor: aws-cli/default
-    steps:
-      - checkout
       - aws-cli/setup:
           profile-name: example
-      - run: echo "Run your code here"
+      - sayhello:
+          greeting: << parameters.greeting >>
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -61,6 +57,3 @@ workflows:
             branches:
               only: 
                 - /feature/.*/
-  aws-cli:
-    jobs:
-      - aws-cli-example
