@@ -36,8 +36,8 @@ jobs:
         default: Hello
     steps:
       - checkout
-      - aws-cli/setup:
-          profile-name: example
+      # - aws-cli/setup:
+      #    profile-name: example
       - sayhello:
           greeting: << parameters.greeting >>
 
