@@ -7,12 +7,20 @@ orbs:
 
 executors:
   python:
+    parameters:
+      tag:
+        type: string
+        default: 3.9.10
     docker: 
-      - image: cimg/python:3.9.10
-
+      - image: cimg/python:<< parameters.tag >>		
+  
   node:
+    parameters:
+      tag:
+        type: string
+        default: lts
     docker: 
-      - image: cimg/node:lts
+      - image: cimg/node:<< parameters.tag >>
 
 commands:
   sayhello:
@@ -51,13 +59,29 @@ jobs:
           greeting: << parameters.greeting >>
 
   python-job:
-    executor: python
+    executor: 
+      name: python
+      tag: << parameters.tag >>
+    resource_class: << parameters.size >>
+    parameters:
+      tag:
+        type: string
+        default: 3.9.10
+      size:
+        type: string
+        default: small
     steps:
       - run:
           command: python --version
 
   node-job:
-    executor: node
+    executor: 
+      name: node
+      tag: << parameters.tag >>
+    parameters:
+      tag:
+        type: string
+        default: lts
     steps:
       - run:
           command: node --version
@@ -83,5 +107,8 @@ workflows:
 
   custom-executor-workflow:
     jobs:
-      - python-job
-      - node-job
+      - python-job:
+          tag: "3.9.10"
+          size: "small"
+      - node-job:
+          tag: "lts"
