@@ -5,6 +5,15 @@ version: 2.1
 orbs: 
   aws-cli: circleci/aws-cli@2.0.6
 
+executors:
+  python:
+    docker: 
+      - image: cimg/python:3.9.10
+
+  node:
+    docker: 
+      - image: cimg/node:lts
+
 commands:
   sayhello:
     description: I am reusable
@@ -41,6 +50,18 @@ jobs:
       - sayhello:
           greeting: << parameters.greeting >>
 
+  python-job:
+    executor: python
+    steps:
+      - run:
+          command: python --version
+
+  node-job:
+    executor: node
+    steps:
+      - run:
+          command: node --version
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -59,3 +80,8 @@ workflows:
             branches:
               only: 
                 - /feature/.*/
+
+  custom-executor-workflow:
+    jobs:
+      - python-job
+      - node-job
